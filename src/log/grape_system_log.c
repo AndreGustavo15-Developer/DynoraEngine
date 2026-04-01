@@ -49,6 +49,10 @@ void grape_log_dispatch(GrapeLogCategory category,
     event.line = line;
     event.category = category;
     event.level = (uint8_t)level;
+
+    // o 'buffer' fica na stack, então,'messagem' aponta para o buffer.
+    // event.message é válido apenas durante a execução do backend
+    //  user allocator(arena / pool)
     event.message = buffer;
     event.user_data = NULL;
 
