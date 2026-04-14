@@ -27,13 +27,16 @@ add_library(Grape_Engine STATIC
 )
 
 target_include_directories(Grape_Engine
-    PUBLIC ${GRAPE_ENGINE_INCLUDE_DIR}
+    PUBLIC
+        ${GRAPE_ENGINE_INCLUDE_DIR}
+    PRIVATE
+        ${GRAPE_ENGINE_SRC_DIR}
 )
 
 # ==== Exemplos ====
 option(BUILD_EXAMPLES "Build examples" ON)
 
 if(BUILD_EXAMPLES)
-    add_executable(grape_example examples/test_performace.c)
+    add_executable(grape_example examples/test.c)
     target_link_libraries(grape_example PRIVATE Grape_Engine)
 endif()
