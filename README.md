@@ -23,15 +23,6 @@
 - [License](#license)  
 - [Author](#author)  
 
-# 🍇 Grape Engine
-
-*A high-performance modular game engine written in Zig + C*
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/AndreGustavo15-Developer/GrapeEngine.svg)](https://github.com/AndreGustavo15-Developer/GrapeEngine/issues)
-[![GitHub stars](https://img.shields.io/github/stars/AndreGustavo15-Developer/GrapeEngine.svg)](https://github.com/AndreGustavo15-Developer/GrapeEngine/stargazers)
-
----
 
 ## 🌱 Overview
 
@@ -63,8 +54,8 @@ This philosophy is the **foundation of the engine** and guides every technical d
 
 * Define a deeply modular and extensible architecture
 * Achieve **extreme performance** in critical systems
-* Enable plugable systems (DLL/modules)
-* Grow into a **AAA-level open-source engine**
+* Enable pluggable systems (DLL/modules)
+* Grow into a **high-quality, production-ready open-source engine**
 
 ---
 
@@ -189,14 +180,6 @@ Avoid:
 
 * Large feature implementations without alignment
 * Adding external dependencies prematurely
-
----
-
-## 🚀 Future Vision
-
-The long-term goal is to evolve into a **fully modular AAA-grade open-source engine**, potentially maintained by a dedicated organization:
-
-**Grape Engine Foundation** *(working name)*
 
 ---
 
