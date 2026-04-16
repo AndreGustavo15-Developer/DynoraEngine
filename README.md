@@ -38,14 +38,19 @@ The goal is to create an engine that **grows and evolves like a living system**,
 
 ## 🍇 Core Philosophy
 
-### 🌿 Modular Architecture (Grape Model)
+Grape Engine is built around **organic modularity**, inspired by a grape cluster.
 
-* Each system is an independent **module (berry)**
-* The core acts as the **connector (stem)**
-* Systems evolve independently without breaking the whole
-* New features can be integrated organically
+- Each system is an independent **module ("berry")**
+- The Core acts as the **connector ("stem")**
+- Systems evolve independently without breaking the whole
 
-This philosophy is the **foundation of the engine** and guides every technical decision.
+### Principles
+
+- **Modular Architecture** — loosely coupled, replaceable systems  
+- **Adaptive Pipeline** — execution adapts to hardware and context  
+- **Hybrid ECS Model** — combines flexibility and performance  
+
+These principles guide all architectural decisions of the engine.
 
 ---
 
