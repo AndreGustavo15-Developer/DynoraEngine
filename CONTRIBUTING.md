@@ -1,13 +1,13 @@
 # Contributing to Dynora Engine
 
-Thank you for contributing to **Dynora Engine**.
+Thank you for your interest in contributing to Dynora.
 
-This document defines the standards and guidelines that keep the project consistent, performant, and aligned with its core philosophy:  
-**modularity, performance, and evolving architecture**.
+Dynora is an early-stage project focused on **architecture, modularity, and performance**.
+Contributions at this stage have a real impact on the engine’s foundations.
 
 ---
 
-# Project Philosophy
+## Project Philosophy
 
 Dynora is built around three fundamental principles:
 
@@ -21,9 +21,32 @@ Before contributing, always ask:
 
 ---
 
-# How to Contribute
+## Getting Started
 
-## 1. Fork & Branch
+If you're new to the project:
+
+1. Read the README for project context
+2. Explore the `/docs/tdd` for architecture direction
+3. Check open issues (especially labeled `good first` issue or `discussion`)
+4. Open an issue before starting large changes
+
+---
+
+## Ways to Contribute
+
+At this stage, the most valuable contributions are:
+
+- Architecture and design feedback
+- Logger system improvements
+- API/interface suggestions
+- Performance considerations
+- Documentation improvements
+- Small validation implementations
+
+
+## Development Workflow
+
+### 1. Fork & Branch
 
 Create a descriptive branch:
 
@@ -33,9 +56,7 @@ git checkout -b feat/logger-ring-buffer
 
 ---
 
-## 2. Keep Changes Small and Focused
-
-Avoid large, mixed commits.
+### 2. Keep Changes Small and Focused
 
 Good:
 
@@ -48,7 +69,7 @@ Avoid:
 
 ---
 
-## 3. Follow Commit Conventions
+### 3. Follow Commit Conventions
 
 Required format:
 
@@ -58,7 +79,7 @@ type(scope): short description
 
 ---
 
-# Commit Types
+### Commit Types
 
 | Type       | Usage                   |
 | ---------- | ----------------------- |
@@ -72,7 +93,7 @@ type(scope): short description
 
 ---
 
-# Scopes
+## Scopes
 
 Use the affected system:
 
@@ -90,7 +111,7 @@ Use the affected system:
 
 ---
 
-# Commit Rules
+## Commit Rules
 
 * Use imperative verbs (add, fix, remove, improve)
 * Max 72 characters in the first line
@@ -98,9 +119,7 @@ Use the affected system:
 * Always include a scope
 * Be clear and concise
 
----
-
-# Commit Examples
+### Commit Examples
 
 ```bash
 fix(logger): avoid dangling pointer in log message
@@ -114,9 +133,9 @@ refactor(logger): separate dispatch from backend execution
 
 ---
 
-# Performance Guidelines
+## Performance Guidelines
 
-## Hot Path Rules (CRITICAL)
+### Hot Path Rules (CRITICAL)
 
 For performance-critical systems (logger, ECS, renderer):
 
@@ -135,7 +154,7 @@ Prefer:
 
 ---
 
-## Logging Rules
+### Logging Rules
 
 * Logs must be **self-contained**
 * Never store pointers to temporary memory (stack/local)
@@ -144,7 +163,7 @@ Prefer:
 
 ---
 
-## Modularity Rules
+### Modularity Rules
 
 * Avoid direct dependencies between systems
 * Use simple interfaces (function pointers, structs)
@@ -153,7 +172,7 @@ Prefer:
 
 ---
 
-# Code Guidelines
+## Code Guidelines
 
 * Clear code > clever code
 * Avoid unnecessary macros
@@ -163,7 +182,7 @@ Prefer:
 
 ---
 
-# Documentation
+## Documentation
 
 If your change:
 
@@ -175,7 +194,7 @@ Update the documentation accordingly
 
 ---
 
-# Pull Requests
+## Pull Requests
 
 Before opening a PR:
 
@@ -216,7 +235,7 @@ Dynora focuses on:
 
 When in doubt:
 
-> Choose the simplest, most predictable, and most performant solution — always prioritize the hot path.
+> Choose the simplest, most predictable, and most performant solution.
 
 ---
 
