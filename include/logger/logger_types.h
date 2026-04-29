@@ -1,6 +1,7 @@
 #ifndef LOGGER_TYPES_H
 #define LOGGER_TYPES_H
 #include <stdint.h>
+#include <stdbool.h>
 
 enum { DYNORA_LOG_MESSAGE_MAX = 512 };
 
