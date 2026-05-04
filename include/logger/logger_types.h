@@ -23,7 +23,7 @@ typedef struct DynoraLogEvent {
     const char* file;     // Arquivo onde ocorreu
     const char* function; // Função onde ocorreu
     uint32_t line;        // Linha do código
-    uint32_t category;    // Categoria (bitmask)
+    DynoraLogCategory category; // Categoria (bitmask)
     uint8_t level;        // Nível do log
     char message[DYNORA_LOG_MESSAGE_MAX];
     void* user_data; // Opcional para backends avançados
