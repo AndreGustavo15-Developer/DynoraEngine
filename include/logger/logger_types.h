@@ -7,26 +7,28 @@ enum { DYNORA_LOG_MESSAGE_MAX = 512 };
 
 /* ===== LEVEL ===== */
 enum DynoraLogLevel {
-    DYNORA_LEVEL_DEBUG,
+    DYNORA_LEVEL_DEBUG = 0,
     DYNORA_LEVEL_INFO,
     DYNORA_LEVEL_WARNING,
     DYNORA_LEVEL_ERROR,
     DYNORA_LEVEL_FATAL,
+    DYNORA_LEVEL_COUNT // Sentinel value (not a valid level)
 };
+_Static_assert(DYNORA_LEVEL_COUNT <= 255, "LogLevel must fit in uint8_t");
 
 /* ===== TYPES ===== */
 typedef uint32_t DynoraLogCategory;
 
 typedef struct DynoraLogEvent {
-    uint64_t timestamp;   // tempo real (debug, profiling)
-    uint64_t sequence;    // ordem dos logs
-    const char* file;     // Arquivo onde ocorreu
-    const char* function; // Função onde ocorreu
-    uint32_t line;        // Linha do código
-    DynoraLogCategory category; // Categoria (bitmask)
-    uint8_t level;        // Nível do log
+    uint64_t timestamp; // monotonic timestamp (ns)
+    uint64_t sequence;    
+    const char* file;     
+    const char* function; 
+    uint32_t line;        
+    DynoraLogCategory category; 
+    uint8_t level;        
     char message[DYNORA_LOG_MESSAGE_MAX];
-    void* user_data; // Opcional para backends avançados
+    void* user_data;
 } DynoraLogEvent;
 
 // Move defines category to logger_h after adding new system backends

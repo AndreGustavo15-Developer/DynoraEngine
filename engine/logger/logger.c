@@ -1,6 +1,7 @@
 #include "logger/logger_internal.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include <assert.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -66,12 +67,21 @@ void logger_dispatch(DynoraLogCategory category,
     const char* fmt,
     ...) {
 
+    assert(level < DYNORA_LEVEL_COUNT);
+    assert(fmt != NULL);
+
+    if (level >= DYNORA_LEVEL_COUNT || !fmt)
+        return;
+
     if (d_logger_state.backend_count == 0)
         return;
 
     DynoraLogEvent event;
     event.timestamp = time_now_ns();
+
+    // NOTE: Not thread-safe (will become atomic in async version)
     event.sequence = d_logger_state.counter++;
+
     event.file = file;
     event.function = function;
     event.line = line;
@@ -81,6 +91,8 @@ void logger_dispatch(DynoraLogCategory category,
     va_list args;
     va_start(args, fmt);
     vsnprintf(event.message, DYNORA_LOG_MESSAGE_MAX, fmt, args);
+    // message may be truncated
+    event.message[DYNORA_LOG_MESSAGE_MAX - 1] = '\0';
     va_end(args);
     event.user_data = NULL;
 
@@ -115,7 +127,8 @@ void logger_set_category_mask(DynoraLogCategory category) {
 void logger_add_backend(void (*write)(const DynoraLogEvent*, void*),
     void* user_data) {
 
-    if (!write || d_logger_state.backend_count >= DYNORA_LOGGER_MAX_BACKENDS)
+    if (!write ||
+        d_logger_state.backend_count >= DYNORA_LOGGER_MAX_BACKENDS)
         return;
 
     Backend backend = {.write = write, .user_data = user_data};
