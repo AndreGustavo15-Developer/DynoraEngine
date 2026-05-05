@@ -21,14 +21,14 @@ typedef uint32_t DynoraLogCategory;
 
 typedef struct DynoraLogEvent {
     uint64_t timestamp; // monotonic timestamp (ns)
-    uint64_t sequence;    
-    const char* file;     
-    const char* function; 
-    uint32_t line;        
-    DynoraLogCategory category; 
-    uint8_t level;        
-    char message[DYNORA_LOG_MESSAGE_MAX];
+    uint64_t sequence;
+    const char* file;
+    const char* function;
     void* user_data;
+    char message[DYNORA_LOG_MESSAGE_MAX];
+    uint32_t line;
+    DynoraLogCategory category;
+    uint8_t level;
 } DynoraLogEvent;
 
 // Move defines category to logger_h after adding new system backends
