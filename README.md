@@ -58,7 +58,9 @@ Dynora aims to:
 
 - Define a deeply modular and extensible architecture  
 - Achieve high performance in critical systems  
-- Support pluggable modules and backends (DLLs/modules) 
+- Support modular subsystems and runtime extensions
+- Allow modules to be statically linked or dynamically loaded
+- Support lightweight runtime-reloadable plugins
 - Grow into a production-ready open-source engine  
 - Give developers full architectural control  
 
@@ -66,15 +68,16 @@ Dynora aims to:
 
 ## Current State
 
-> **Architecture Design Phase**
+> **Architecture Validation Phase**
 
-Dynora is currently defining its **core architecture and system boundaries**.
+Dynora is currently validating its core runtime architecture and subsystem boundaries incrementally.
 
-- The Technical Design Document (TDD) is actively evolving
-- Core modules are being designed, not fully implemented
-- The logger system is the first subsystem used to validate architectural decisions
+- Core runtime concepts are being defined through ADRs and versioned specifications
+- The logger subsystem is the first architectural validation system
+- Public APIs and module boundaries are being stabilized before large systems are introduced
+- Zig is being introduced progressively while C remains the primary ABI and interface layer
 
-This means the project is early, but also the best moment to influence its foundations.
+This stage focuses on validating architecture correctness before expanding engine features.
 
 ---
 
@@ -97,19 +100,26 @@ This project is as much about **architecture exploration** as it is about buildi
 
 ### Logger (first subsystem)
 
-The logging system is the first implemented module, designed to validate:
+The logging system is the first implemented subsystem and acts as an architectural validation layer for Dynora.
+
+It currently validates:
 
 - Module boundaries
 - Backend abstraction
 - Performance considerations in hot paths
 - Decoupled interfaces
+- Runtime boundaries
+- Module lifecycle concepts
+- Concurrency model experiments
+- Backend execution models
+- Stable public C interfaces
 
 Example:
 
 ```c
 DYNORA_LOG_INFO(DYNORA_LOG_GENERAL, "System initialized");
 ```
-Planned evolution:
+Planned architectural evolution:
 
 - Asynchronous logging
 - Multiple backends
@@ -137,6 +147,81 @@ Critical paths are considered early in design, not as an afterthought.
 
 Systems are implemented early in minimal form to validate architectural decisions.
 
+### Stable Boundaries
+
+Public interfaces should remain stable and explicit.
+
+Dynora prioritizes clear contracts between systems over hidden coupling or implicit dependencies.
+
+---
+
+## Architecture Model
+
+Dynora is structured around three primary layers.
+
+### Core
+
+The core is intentionally minimal and responsible for:
+
+- lifecycle management
+- runtime orchestration
+- platform abstraction
+- service coordination
+- module loading
+- memory and threading interfaces
+
+The core should remain small, stable, and independent from higher-level systems.
+
+---
+
+### Modules
+
+Modules are large engine subsystems such as:
+
+- renderer
+- ECS
+- physics
+- audio
+- asset pipeline
+
+Modules are designed to:
+
+- evolve independently
+- expose stable interfaces
+- remain loosely coupled
+- be replaceable when possible
+
+Modules may be:
+
+- statically linked
+- dynamically loaded
+- compiled together with the engine runtime
+
+---
+
+### Plugins
+
+Plugins are lightweight runtime extensions intended for:
+
+- editor tooling
+- debugging utilities
+- scripting integrations
+- experimental systems
+- custom workflows
+
+Unlike core modules, plugins are expected to support runtime reloadability whenever possible.
+
+---
+
+### Language Strategy
+
+Dynora follows a layered language model:
+
+- C defines stable interfaces and ABI boundaries
+- Zig progressively implements runtime systems and internal subsystems
+
+This separation allows architecture stability while enabling modern systems programming features internally.
+
 ---
 
 ### Planned Systems
@@ -160,21 +245,27 @@ All systems will follow the same modular design philosophy.
 DynoraEngine/
 │
 ├── engine/
+│   ├── core/
 │   ├── logger/
 │   ├── ecs/
-│   ├── renderer/
+│   └── renderer/
 │
 ├── backends/
 │   └── logger_console/
 │
+├── plugins/
+│
 ├── docs/
-│   └── tdd/
+│   ├── roadmap.md
+│   ├── core_rules.md
+│   ├── adr/
+│   ├── specs/
+│   └── design/
 │
 ├── examples/
-│
 ├── tests/
 │
-└── (README.md, LICENSE, ...)
+└── README.md
 ```
 
 The structure will continue evolving alongside the architecture.
@@ -214,15 +305,39 @@ The current build produces early engine modules and test binaries used for archi
 
 ## Documentation
 
-### Local Docs
+Dynora documentation is organized by responsibility.
 
-Internal documentation and technical design documents:
+### Core Rules
+
+Global architectural constraints and engine-wide principles.
 
 ```bash
-/docs
-/docs/tdd
+/docs/core_rules.md
 ```
-The **TDD (Technical Design Document)** is the main reference for architectural decisions.
+
+### ADRs (Architecture Decision Records)
+
+Formal architectural decisions and system contracts.
+
+```bash
+/docs/adr
+```
+
+### Specifications
+
+Versioned subsystem contracts and behavioral definitions.
+
+```bash
+/docs/specs
+```
+
+### Design Notes
+
+Exploratory documents and evolving architectural ideas.
+
+```bash
+/docs/design
+```
 
 ---
 
@@ -267,9 +382,11 @@ See **[CONTRIBUTING.md](CONTRIBUTING.md)** for contribution guidelines.
 
 ## Project Direction
 ### Current Focus
-- Defining core architecture
-- Validating modular design through small systems
-- Building strong foundations
+- Validating runtime architecture incrementally
+- Stabilizing subsystem contracts
+- Defining module and plugin boundaries
+- Building a minimal and scalable core runtime
+- Using the logger subsystem as an architectural validation system
 
 ### Intentionally Avoiding (for now)
 - Large feature expansion
