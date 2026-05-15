@@ -398,9 +398,9 @@ See **[CONTRIBUTING.md](CONTRIBUTING.md)** for contribution guidelines.
 ## Roadmap (Conceptual)
 - Define core architecture
 - Stabilize logger module
-- Implement initial ECS prototype
-- Define rendering abstraction
 - Expand documentation and examples
+
+For detailed, see: **[Roadmap](docs/roadmap.md)**
 
 ---
 
