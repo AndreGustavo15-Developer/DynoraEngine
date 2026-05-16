@@ -94,7 +94,14 @@ Níveis mais altos são mais severos.
 ### 4.2 Category Mask
 
 Categorias são representadas como bitmask (`uint32_t`) e usadas para filtrar origem dos logs.
-Uma categoria é aceita quando seu bit está presente na máscara ativa.
+Categorias podem ser combinadas usando OR bit a bit.
+
+Exemplo:
+```
+DYNORA_LOG_RENDER | DYNORA_LOG_IO
+```
+Um evento pode conter múltiplas categorias ativas.
+Uma mensagem é aceita quando existir interseção entre a categoria do evento e a máscara ativa.
 
 ### 4.3 Log Event
 
@@ -111,6 +118,14 @@ Ele contém:
 - nível;
 - mensagem formatada;
 - campo reservado para extensões futuras.
+
+O timestamp é monotônico dentro do processo e expresso em nanosegundos.
+A implementação atual usa a clock monotônica da plataforma:
+- Windows
+  - `QueryPerformanceCounter`
+  - `QueryPerformanceFrequency`
+- POSIX
+  - `CLOCK_MONOTONIC`
 
 ### 4.4 Backend
 
@@ -168,7 +183,11 @@ E máscaras utilitárias:
 Regras:
 
 - a categoria é uma máscara de bits;
-- uma mensagem é aceita apenas se a categoria estiver habilitada na máscara ativa.
+- categorias podem ser combinadas;
+- um evento pode conter múltiplas categorias;
+- uma mensagem é aceita quando:
+  - `level >= nível mínimo atual`; e
+  - `(category & category_mask) != 0`.
 
 ### 5.3 Evento de log
 
@@ -254,7 +273,7 @@ void logger_dispatch(DynoraLogCategory category,
 Regras:
 
 - as macros são a interface de uso normal;
-- Nas macros públicas, não usar as máscaras utilitárias `DYNORA_LOG_NONE` e `DYNORA_LOG_ALL` como categoria de emissão.
+- nas macros públicas, não usar as máscaras utilitárias `DYNORA_LOG_NONE` e `DYNORA_LOG_ALL` como categoria de emissão.
 
 #### `logger_init`
 Define:
@@ -269,14 +288,18 @@ Define:
 
 #### `logger_should_emit`
 Define:
-- categoria ativa
-- nível mínimo
+- avalia apenas:
+    - categoria ativa;
+    - nível mínimo;
 - precisar ser barato
+- não executa formatação;
+- não depende da existência de backend registrado.
 
 #### `logger_dispatch`
 Define:
 - função de infraestrutura. 
 - não deve ser chamada diretamente pelo código do usuário.
+- pode retornar imediatamente quando não houver backend registrado.
 
 ### 7.4 Debug validation
 
@@ -372,6 +395,13 @@ Backends não devem:
 - modificar o evento;
 - assumir ownership do evento;
 - manter ponteiros para campos do evento sem copiar os dados.
+- chamar a API pública de logging durante `write(...)`.
+
+Reentrância não é suportada nesta versão.
+
+A implementação não possui proteção contra recursão de logging.
+
+Comportamento reentrante é considerado uso não suportado.
 
 ---
 
@@ -389,6 +419,7 @@ void (*write)(const DynoraLogEvent* event, void* user_data);
 - backends não alteram o evento;
 - backends não assumem ownership do evento;
 - backends executam no mesmo fluxo da chamada.
+- a ordem de execução dos backends não é contrato formal da 0.0.1.
 
 ### 12.3 Backend existente
 
