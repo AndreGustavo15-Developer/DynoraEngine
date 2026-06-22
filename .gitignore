@@ -1,0 +1,5 @@
+.cache
+build
+build-debug
+build-release
+.vscode

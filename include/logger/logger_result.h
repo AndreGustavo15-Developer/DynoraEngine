@@ -1,0 +1,15 @@
+#ifndef LOGGER_RESULT_H
+#define LOGGER_RESULT_H
+
+typedef enum DynoraLoggerResult {
+    DYNORA_LOGGER_SUCCESS = 0,
+
+    DYNORA_LOGGER_ERROR_NOT_INITIALIZED,
+
+    DYNORA_LOGGER_ERROR_NULL_BACKEND,
+
+    DYNORA_LOGGER_ERROR_BACKEND_LIMIT,
+
+} DynoraLoggerResult;
+
+#endif

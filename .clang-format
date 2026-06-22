@@ -1,0 +1,21 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 75
+BreakBeforeBraces: Attach
+PointerAlignment: Left
+SortIncludes: false
+
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: DontAlign
+AllowAllArgumentsOnNextLine: false
+
+IncludeCategories:
+  - Regex: '^<glad/.*>'
+    Priority: 1
+  - Regex: '^<GLFW/.*>'
+    Priority: 2
+  - Regex: '^<.*>'
+    Priority: 3
+  - Regex: '.*'
+    Priority: 4
